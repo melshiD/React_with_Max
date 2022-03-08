@@ -2,10 +2,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     padding: 0.5rem;
     margin: 1rem 0.5rem;
-    border-radius: 12px;
     background-color: #4b4b4b;
   }
   
@@ -25,6 +23,9 @@
     flex: 1;
     margin: 0 1rem;
     color: white;
+  }
+  .expense-item h2:hover{
+    color: pink;
   }
   
   .expense-item__price {
