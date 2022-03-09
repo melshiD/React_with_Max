@@ -1,14 +1,13 @@
 import ExpensesFilter from './ExpensesFilter';
 import ExpensesList from './ExpensesList';
+import ExpensesChart from '../Chart/ExpensesChart';
 import Card from '../UI/Card';
 import React, { useState } from 'react';
 import './Expenses.css';
 
 function Expenses(props) {
-    const [filteredYear, setFilteredYear] = useState('2021');
-    // const updateExpenseArray = (filteredYear) => {
-    //     props.expenses.map( e.date.getFullYear().toString() == filteredYear);
-    // }
+    const [filteredYear, setFilteredYear] = useState('2022');
+
     const filterChangeHandler = (newYear) => {
         console.log(`from State Carrier in Expenses: ${newYear}`);
         setFilteredYear(newYear);
@@ -25,7 +24,8 @@ function Expenses(props) {
                     selected={filteredYear} 
                     onChangeFilter={filterChangeHandler}
                 />
-                <ExpensesList expenses={filteredExpenses}/>
+                <ExpensesChart expenses={filteredExpenses} />
+                <ExpensesList expenses={filteredExpenses} />
             </Card>
         </div>
     )
