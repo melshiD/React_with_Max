@@ -5,15 +5,15 @@ import React, {useState} from 'react';
 import './Expenses.css';
 
 function Expenses(props) {
-    const [enteredYear, setEnteredYear] = useState('');
+    const [enteredDate, setEnteredYear] = useState('');
     const stateCarrierFilterYear = (newYear) => {
-        console.log(`from State Carrier: ${newYear}`);
+        console.log(`from State Carrier in Expenses: ${newYear}`);
         setEnteredYear(newYear);
     }
     return (
         <div >
-            <ExpensesFilter updateFilterYear={stateCarrierFilterYear}/>
             <Card className='expenses'>
+                <ExpensesFilter onChangeFilter={stateCarrierFilterYear}/>
                 <ExpenseItem title={props.expenses[0].title}
                     amount={props.expenses[0].amount}
                     date={props.expenses[0].date}>
