@@ -32,6 +32,8 @@ const AddUser = props => {
             return;
         }
         props.onAddUser(enteredName, enteredAge);
+        nameInputRef.current.value = '';
+        ageInputRef.current.value = '';
     }
 
     const onDismissModal = () => {
