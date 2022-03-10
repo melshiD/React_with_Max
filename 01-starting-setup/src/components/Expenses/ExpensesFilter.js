@@ -3,7 +3,6 @@ import './ExpensesFilter.css';
 
 const ExpensesFilter = (props) => {
 
-    // const [enteredDate, setEnteredDate] = useState('');
     const dropdownCHangeHandler = (event) => {
         props.onChangeFilter(event.target.value);
     }
