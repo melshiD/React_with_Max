@@ -1,5 +1,5 @@
-import React, { useState, useReducer } from 'react';
-
+import React, { useState, useReducer, useEffect, useContext } from 'react';
+import AuthContext from '../../Store/auth-context';
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
 import Button from '../UI/Button/Button';
@@ -21,7 +21,7 @@ const passwordReducer = (state, action) => {
     return {value: action.val, isValid: action.val.trim().length > 6};
   }
   if(action.type === 'INPUT_BLUR'){
-    return {value: action.value, isValid: state.value.trim().length > 6};
+    return {value: state.value, isValid: state.isValid};
   }
   return {value: '', isValid: false};
 };
@@ -36,26 +36,21 @@ const Login = (props) => {
   const [passwordState, dispatchPassword] = useReducer(passwordReducer, {
     value: '', isValid: null});
 
-  // useEffect(() => {
-  //   const timerId = setTimeout(() => {
-  //     console.log('in the func')
-  //     setFormIsValid(
-  //       enteredEmail.includes('@') && enteredPassword.trim().length > 6
-  //     );
-  //   }, 500);
-  //   return () => {clearTimeout(timerId)};
-  // }, [enteredEmail, enteredPassword]);
+  const authCtx = useContext(AuthContext);
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      console.log('in the func')
+      setFormIsValid(
+        emailState.isValid && passwordState.isValid
+      );
+    }, 500);
+    return () => {clearTimeout(timerId)};
+  }, [emailState.isValid, passwordState.isValid]);
 
   const emailChangeHandler = (event) => {
     dispatchEmail({type: 'USER_INPUT', val: event.target.value});
-    setFormIsValid(
-      event.target.value.includes('@') && passwordState.isValid
-    );
   };
-
-
-  //WHY IS MY FORM BREAKING WHEN I CLICK ON THE PASSWORD INPUT?
-  //ALSO, EXTRA STUDY ON USEREDUCER
 
   const passwordChangeHandler = (event) => {
     dispatchPassword({type: 'USER_INPUT', val: event.target.value});
@@ -72,7 +67,7 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value);
+    authCtx.onLogin(emailState.value, passwordState.value);
   };
 
 
