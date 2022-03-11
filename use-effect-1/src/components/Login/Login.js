@@ -6,10 +6,12 @@ import Button from '../UI/Button/Button';
 
 const emailReducer = (state, action) => {
   if(action.type === 'USER_INPUT'){
+    console.log('on my way in : ' + action.val);
     return {value: action.val, isValid: action.val.includes('@')};
   }
   if(action.type === 'INPUT_BLUR'){
-    return {value: action.val, isValid: action.val.includes('@')};
+    console.log('on my way out : ' + action.val);
+    return {value: state.value, isValid: state.isValid};
   }
   return {value: '', isValid: false};
 };
@@ -46,9 +48,14 @@ const Login = (props) => {
 
   const emailChangeHandler = (event) => {
     dispatchEmail({type: 'USER_INPUT', val: event.target.value});
+    setFormIsValid(
+      event.target.value.includes('@') && passwordState.isValid
+    );
   };
 
+
   //WHY IS MY FORM BREAKING WHEN I CLICK ON THE PASSWORD INPUT?
+  //ALSO, EXTRA STUDY ON USEREDUCER
 
   const passwordChangeHandler = (event) => {
     dispatchPassword({type: 'USER_INPUT', val: event.target.value});
@@ -56,7 +63,7 @@ const Login = (props) => {
 
   const validateEmailHandler = (event) => {
     dispatchEmail({type: 'INPUT_BLUR'});
-    setFormIsValid(emailState.isValid && event.target.value.trim().length > 6);
+    // setFormIsValid(emailState.isValid && event.target.value.trim().length > 6);
   };
 
   const validatePasswordHandler = () => {
