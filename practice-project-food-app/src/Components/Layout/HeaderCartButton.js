@@ -2,8 +2,9 @@ import CartIcon from "../Cart/CartIcon";
 import classes from './HeaderCartButton.module.css';
 
 const HeaderCartButton = props => {
+    console.log(props);
     return(
-        <button className={classes.button}>
+        <button className={classes.button} onClick={props.taffy}>
             <span className={classes.icon}>
                 <CartIcon />
             </span>
