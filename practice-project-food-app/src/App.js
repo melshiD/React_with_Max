@@ -1,8 +1,8 @@
 import Header from "./Components/Layout/Header";
-import React, {Fragment, useState} from 'react';
+import React, {useState} from 'react';
 import Meals from "./Components/Meals/Meals";
-import Cart
- from "./Components/Cart/Cart";
+import Cart from "./Components/Cart/Cart";
+import CartProvider from "./store/CartProvider";
 function App() {
   const [cartIsShown, setCartIsShown] = useState(false);
 
@@ -16,16 +16,14 @@ function App() {
   };
 
   return (
-    <Fragment>
+    <CartProvider>
       {cartIsShown && <Cart hideCart={hideCartHandler}/>}
-      <Header showCart={showCartHandler}/>
+      <Header onShowCart={showCartHandler}/>
       <main>
         <Meals />
       </main>
-    </Fragment>
+    </CartProvider>
   );
 }
 
 export default App;
-WHEN YOU SIT BACK DOWN FIGURE OUT WHY THE SHOW CART FEATURE DOESNT WORK 
-BUT THE HIDE CART FEATURE WORKS

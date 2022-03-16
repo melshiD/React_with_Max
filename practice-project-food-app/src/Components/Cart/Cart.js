@@ -10,7 +10,7 @@ const Cart = props => {
                         })}</ul>
 
     return(
-        <Modal>
+        <Modal hideCart={props.hideCart}>
             {cartItems}
             <div className={classes.total}>
                 <span>Total Amount</span>
