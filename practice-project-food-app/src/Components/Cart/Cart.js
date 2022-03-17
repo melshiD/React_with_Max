@@ -5,9 +5,9 @@ import Modal from '../UI/Modal';
 
 const Cart = props => {
     const cartCtx = useContext(CartContext);
-console.log(cartCtx);
-console.log(cartCtx.totalAmount.toFixed(2));
-    const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
+    console.log(cartCtx);
+    console.log(`in Cart, cartCtx.totalAmount: ${cartCtx.totalAmount}`);
+    const totalAmount = `$${cartCtx.totalAmount}`;
     const hasItems = cartCtx.items.length > 0;
 
     const cartItems = <ul 

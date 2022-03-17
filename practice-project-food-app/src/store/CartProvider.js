@@ -10,7 +10,12 @@ const defaultCartState = {
 const cartReducer = (state, action) => {
     if(action.type==='ADD_ITEM'){
         const updatedItems = state.items.concat(action.item);
-        const updatedTotalAmount = state.totalAmount + action.item.price * action.item.totalAmount;
+        const updatedTotalAmount = state.totalAmount + action.item.price * action.item.amount;
+        console.log(`state.totalAmount: ${state.totalAmount},
+                    state.item.price: ${action.item.price},
+                    action.item.totalAmount: ${action.item.totalAmount}`);
+        //TOTALAMOUNT IS NaN_____ FIND THE DISCONNECT BETWEEN PRICE AND AMOUNT!
+        console.log(`Inside cartReducer add item: updatedTotalAmount: ${updatedTotalAmount}`);
         return {
             items: updatedItems,
             totalAmount: updatedTotalAmount
@@ -20,15 +25,15 @@ const cartReducer = (state, action) => {
 };
 
 const CartProvider = props => {
-    const [cartState, dispatchCardAction] = useReducer(cartReducer, defaultCartState);
+    const [cartState, dispatchCartAction] = useReducer(cartReducer, defaultCartState);
 
     const addItemToCartHandler = item => {
-        dispatchCardAction({type: 'ADD_ITEM', item: item});
-        
+        dispatchCartAction({type: 'ADD_ITEM', item: item});
+        // console.log(`foof: ${item.price}`);
     };
 
     const removeItemFromCartHandler = id => {
-        dispatchCardAction({type: 'REMOVE_ITEM', id: id});
+        dispatchCartAction({type: 'REMOVE_ITEM', id: id});
     };
 
     const cartContext = {
