@@ -1,15 +1,28 @@
-import React, {useState} from 'react';
+import React, { useState, useCallback } from 'react';
 import Button from './components/UI/Button/Button';
-
+import DemoOutput from './components/Demo/DemoOutput';
 import './App.css';
 
 function App() {
-  const [showParagraph, setShowParagraph] =useState(true);
-  const toggleParagraphHandler = () => setShowParagraph(previousShowParagraph => !showParagraph);
+  const [showParagraph, setShowParagraph] = useState(false);
+  const [allowToggle, setAllowToggle] = useState(false);
+
+  const allowToggleHandler = () => {
+    setAllowToggle(true);
+  }
+
+  const toggleParagraphHandler = useCallback(() => {
+    console.log('toggleParagraphHandler');
+    if (allowToggle) {
+      setShowParagraph((previousShowParagraph) => !previousShowParagraph);
+    }
+  }, [allowToggle]);
+
   return (
     <div className="app">
       <h1>Hi there!</h1>
-      {showParagraph && <h2>I am a paragraph, I am. I am. I am.</h2>}
+      <DemoOutput show={showParagraph} />
+      <Button onClick={allowToggleHandler}>Allow Toggling</Button>
       <Button onClick={toggleParagraphHandler}>Toggle Paragraph</Button>
     </div>
   );
