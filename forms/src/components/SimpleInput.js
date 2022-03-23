@@ -2,10 +2,24 @@ import {useState, useRef} from 'react'
 
 const SimpleInput = (props) => {
   const nameInputRef = useRef();
+  const [enteredName, setEnteredName] = useState('');
+  const [enteredNameIsValid, setEnteredNameIsvalid] = useState(false);
+
+  const nameInputChangeHandler = event => {
+    setEnteredName(event.target.value);
+  }
 
   const formSubmissionHandler = event => {
     event.preventDefault();
-    console.log(nameInputRef.current.value);
+    let codes = () => {
+      let codeArray = [];
+      for(let i in enteredName){
+        codeArray.push(enteredName.charCodeAt(i));
+        console.log(enteredName.charCodeAt(i))
+      }
+      return codeArray;
+    }
+    console.log(codes());
   };
 
   return (
@@ -15,6 +29,7 @@ const SimpleInput = (props) => {
         <input ref={nameInputRef} 
                type='text' 
                id='name' 
+               onChange={nameInputChangeHandler}
         />
       </div>
       <div className="form-actions">
