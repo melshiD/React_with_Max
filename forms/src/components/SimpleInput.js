@@ -4,33 +4,49 @@ const SimpleInput = (props) => {
   const nameInputRef = useRef();
   const [enteredName, setEnteredName] = useState('');
   const [enteredNameIsValid, setEnteredNameIsvalid] = useState(false);
+  const [enteredNameTouched, setEnteredNameTouched] = useState(false);
 
   const nameInputChangeHandler = event => {
     setEnteredName(event.target.value);
+    if(event.target.value.trim() !== ''){
+      setEnteredNameIsvalid(true);
+    }
+  }
+
+  const nameInputBlurHandler = event => {
+    setEnteredNameTouched(true);
+    if(enteredName.trim() === ''){
+      setEnteredNameIsvalid(false);
+    }
   }
 
   const formSubmissionHandler = event => {
     event.preventDefault();
-    let codes = () => {
-      let codeArray = [];
-      for(let i in enteredName){
-        codeArray.push(enteredName.charCodeAt(i));
-        console.log(enteredName.charCodeAt(i))
-      }
-      return codeArray;
+    setEnteredNameTouched(true);
+    if(enteredName.trim() !== ''){
+      setEnteredNameIsvalid(true);
     }
-    console.log(codes());
+    console.log(enteredName);
   };
+
+  const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
+
+  const nameInputClasses = nameInputIsInvalid ? 
+                            'form-control invalid':
+                            'form-control';
 
   return (
     <form onClick={formSubmissionHandler}>
-      <div className='form-control'>
+      <div className={nameInputClasses}>
         <label htmlFor='name'>Your Name</label>
         <input ref={nameInputRef} 
                type='text' 
                id='name' 
                onChange={nameInputChangeHandler}
+               onBlur={nameInputBlurHandler}
+               value={enteredName}
         />
+        {nameInputIsInvalid && <p className='error-text'>Name must not be empty.</p>}
       </div>
       <div className="form-actions">
         <button>Submit</button>
