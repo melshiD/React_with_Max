@@ -1,13 +1,14 @@
-import {useState} from 'react'
+import {useState} from 'react';
+import useInput from '../hooks/use-input';
 
 const SimpleInput = (props) => {
-  const [enteredName, setEnteredName] = useState('');
-  const [enteredNameTouched, setEnteredNameTouched] = useState(false);
+
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredEmailTouched, setEnteredEmailTouched] = useState(false);
 
-  const enteredNameIsValid = enteredName.trim() !== '';
-  const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
+  const [enteredName, setEnteredName] = useState('');
+  const [enteredNameTouched, setEnteredNameTouched] = useState('false');
+
   const enteredEmailIsValid = enteredEmail.includes('@');
   const enteredEmailIsInvalid = !enteredEmailIsValid && enteredEmailTouched;
 
