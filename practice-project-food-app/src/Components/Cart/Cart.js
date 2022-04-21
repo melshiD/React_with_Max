@@ -3,8 +3,11 @@ import CartContext from '../../store/cart-context';
 import CartItem from './CartItem';
 import classes from './Cart.module.css';
 import Modal from '../UI/Modal';
+import Checkout from './Checkout';
+import {useState} from 'react';
 
 const Cart = props => {
+    const [isCheckout, setIsCheckout] = useState(false);
     const cartCtx = useContext(CartContext);
     console.log(cartCtx);
     console.log(`in Cart, cartCtx.totalAmount: ${cartCtx.totalAmount}`);
@@ -19,6 +22,10 @@ const Cart = props => {
         cartCtx.addItem({...item, amount: 1});
     };
 
+    const orderHandler = () => {
+        setIsCheckout(true);
+    }
+
     const cartItems = <ul 
         className={classes['cart-items']}>{
         cartCtx.items.map( item => {
@@ -27,14 +34,17 @@ const Cart = props => {
                       name={item.name} 
                       amount={item.amount} 
                       price={item.price}
-                      //WHY DO I NEED BINDING HERE???
-    //from the docs: (bind(thisArg, arg1)) if the thisArg is 
-    //null or undefined, the this of the executing scope 
-    //is treated as the thisArg for the new function. 
                       onRemove={cartItemRemoveHandler.bind(null, item.id)}
                       onAdd={cartItemAddHandler.bind(null, item)}/>
         })}
     </ul>;
+
+    const modalActions = <div className={classes.actions}>
+        <button className={classes['button--alt']} onClick={props.hideCart}>
+            Close</button>
+        {hasItems && <button className={classes.button} onClick={orderHandler}>
+            Order</button>}
+        </div>;
 
     return(
         <Modal hideCart={props.hideCart}>
@@ -43,14 +53,8 @@ const Cart = props => {
                 <span>Total Amount</span>
                 <span>{totalAmount}</span>
             </div>
-            <div className={classes.actions}>
-                <button 
-                    className={classes['button--alt']}
-                    onClick={props.hideCart}
-                    >Close
-                </button>
-                {hasItems && <button className={classes.button}>Order</button>}
-            </div>
+            {isCheckout && <Checkout />}
+            {!isCheckout && modalActions}
         </Modal>
     );
 };
