@@ -4,9 +4,10 @@ import { Component } from 'react';
 import { counterActions } from '../store/index';
 
 const Counter = () => {
+  const increaseAmount = 100070;
   const dispatch = useDispatch();
-  const counter = useSelector((state) => state.counter);
-  const show = useSelector(state => state.showCounter);
+  const counter = useSelector((state) => state.counter.counter);
+  const show = useSelector(state => state.counter.showCounter);
 
   const incrementHandler = () => {
     dispatch(counterActions.increment());
@@ -15,7 +16,7 @@ const Counter = () => {
     dispatch(counterActions.decrement())
   };
   const increaseHandler = () => {
-    dispatch(counterActions.increase(10000))
+    dispatch(counterActions.increase(increaseAmount))
   }
   const toggleCounterHandler = () => {
     dispatch(counterActions.toggleCounter())
@@ -27,7 +28,7 @@ const Counter = () => {
       {show && <div className={classes.value}>{counter}</div>}
       <div>
         <button onClick={incrementHandler}>Increment</button>
-        <button onClick={increaseHandler}>Increase by 10</button>
+        <button onClick={increaseHandler}>Increase by {increaseAmount}</button>
         <button onClick={decrementHandler}>Decrement</button>
       </div>
       <button onClick={toggleCounterHandler}>Toggle Counter</button>
