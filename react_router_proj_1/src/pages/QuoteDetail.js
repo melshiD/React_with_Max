@@ -9,8 +9,8 @@ import { getSingleQuote } from "../lib/api";
 const QuoteDetail = () => {
     const match = useRouteMatch();
     const params = useParams();
-    const {quoteId} = params;
-    const {sendRequest, status, data: loadedQuote, error} = useHttp(getSingleQuote);
+    const {quoteId} = params; //ok, why is the app not rendering single quotes!
+    const {sendRequest, status, data: loadedQuote, error} = useHttp(getSingleQuote, true);
 
     useEffect( () => {
         sendRequest(quoteId);
