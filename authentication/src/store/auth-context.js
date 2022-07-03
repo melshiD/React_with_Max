@@ -44,6 +44,8 @@ export const AuthContextProvider = (props) => {
     const [token, setToken] = useState(initialToken);
     const userIsLoggedIn = !!token;
 
+    //only partially clear on the purpose and use of useCallback as it relates to
+    //useEffect dependencies
     const logoutHandler = useCallback(() => {
         setToken(null);
         localStorage.removeItem('token');
