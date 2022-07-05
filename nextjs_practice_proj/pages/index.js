@@ -29,6 +29,18 @@ function HomePage(props) {
     return <MeetupList meetups={props.meetups} />
 }
 
+// export async function getServerSideProps(context){
+//     const req = context.req;
+//     const res = context.res;
+
+//     //fetch from api, run serverside code here, it never runs on server and not on client
+//     return{
+//         props: {
+//             meetups: DUMMY_MEETUPS
+//         }
+//     };
+// }
+
 export async function getStaticProps(){
     //fetch data from an api
     return {
