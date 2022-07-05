@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import MeetupList from "../components/meetups/MeetupList";
 import Layout from "../components/layout/Layout";
 
@@ -23,18 +22,22 @@ const DUMMY_MEETUPS = [
         image: 'https://picsum.photos/1201/1300',
         address: '1456 Southish St.',
         description: 'Better than all the meetups'
-    },
-]
+    }
+];
 
 function HomePage(props) {
-    const [loadedMeetups, setLoadedMeetups] = useState([]);
-    useEffect(() => {
-        //send http request
-        setLoadedMeetups(DUMMY_MEETUPS);
-    }, []);
-    return (
-            <MeetupList meetups={loadedMeetups} />
-    )
+    return <MeetupList meetups={props.meetups} />
+}
+
+export async function getStaticProps(){
+    //fetch data from an api
+    return {
+        props: {
+            meetups: DUMMY_MEETUPS
+        },
+        revalidate: 3600
+        //sets number of seconds that page is re-pregenerated on server after deployment
+    };
 }
 
 export default HomePage;
