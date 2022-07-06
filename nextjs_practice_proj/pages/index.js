@@ -1,3 +1,10 @@
+//Only included in server-side bundle
+import {MongoClient} from 'mongodb';
+import credentials from '../credentials';
+import Head from 'next/head';
+
+//Included in client bundle
+import { Fragment } from 'react';
 import MeetupList from "../components/meetups/MeetupList";
 import Layout from "../components/layout/Layout";
 
@@ -26,7 +33,15 @@ const DUMMY_MEETUPS = [
 ];
 
 function HomePage(props) {
-    return <MeetupList meetups={props.meetups} />
+    return (
+        <Fragment>
+            <Head>
+                <title>React Meetups</title>
+                <meta name="description" content="browse these fantastic meetups" />
+            </Head>
+            <MeetupList meetups={props.meetups} />
+        </Fragment>
+    )
 }
 
 // export async function getServerSideProps(context){
@@ -42,10 +57,24 @@ function HomePage(props) {
 // }
 
 export async function getStaticProps(){
-    //fetch data from an api
+    const {password, username} = credentials();
+    const client = await MongoClient.connect(
+        `mongodb+srv://${username}:${password}@cluster0.fjg9ckv.mongodb.net/meetups?retryWrites=true&w=majority`
+        );
+    const db = client.db('meetups');
+
+    const meetupsCollection = db.collection('meetups');
+    const meetups = await meetupsCollection.find().toArray();
+    client.close();
     return {
+        //need to map through and condition object from mongodb to be usable
         props: {
-            meetups: DUMMY_MEETUPS
+            meetups: meetups.map(meetup => ({
+               title: meetup.title,
+               address: meetup.address,
+               image: meetup.image,
+               id: meetup._id.toString()
+            }))
         },
         revalidate: 3600
         //sets number of seconds that page is re-pregenerated on server after deployment
